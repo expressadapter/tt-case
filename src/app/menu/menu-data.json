@@ -1,0 +1,107 @@
+{
+  "mainMenu": {
+    "title": "Ana Menü",
+    "description": "Dilediğiniz zaman servis edilebilir",
+    "starters": [
+      {
+        "id": "1",
+        "name": "Nisuaz Salata",
+        "description": "Ton balığı, yeşil fasulye, zeytin, yumurta ve patates",
+        "image": "https://www.themealdb.com/images/media/meals/yypwwq1511304979.jpg",
+        "ingredients": ["Ton balığı", "Yeşil fasulye", "Zeytin", "Yumurta", "Patates"],
+        "allergens": ["Balık", "Yumurta"],
+        "selectionGroup": "starter",
+        "selectionRequired": true
+      },
+      {
+        "id": "2",
+        "name": "Mozzarella ve Izgara Sebzeler",
+        "description": "Taze mozzarella, közlenmiş biber, patlıcan ve kabak",
+        "image": "https://www.themealdb.com/images/media/meals/yypwwq1511304979.jpg",
+        "ingredients": ["Mozzarella", "Biber", "Patlıcan", "Kabak", "Zeytinyağı"],
+        "allergens": ["Süt"],
+        "selectionGroup": "starter",
+        "selectionRequired": true
+      },
+      {
+        "id": "3",
+        "name": "Kabak Çorbası",
+        "description": "Kremalı kabak çorbası, taze nane ile",
+        "image": "https://www.themealdb.com/images/media/meals/yypwwq1511304979.jpg",
+        "ingredients": ["Kabak", "Krema", "Soğan", "Nane"],
+        "allergens": ["Süt"],
+        "selectionGroup": "soup",
+        "optional": true
+      }
+    ],
+    "mainCourses": [
+      {
+        "id": "4",
+        "name": "Izgara Morina Fileto",
+        "description": "Sote ıspanak ve fırınlanmış patates, limonlu tereyağı sos",
+        "image": "https://www.themealdb.com/images/media/meals/yypwwq1511304979.jpg",
+        "ingredients": ["Morina balığı", "Ispanak", "Patates", "Limon", "Tereyağı"],
+        "allergens": ["Balık", "Süt"],
+        "selectionGroup": "main",
+        "selectionRequired": true
+      },
+      {
+        "id": "5",
+        "name": "Dana Pastırmalı Deniz Tarağı",
+        "description": "Risotto ve sote mantar",
+        "image": "https://www.themealdb.com/images/media/meals/yypwwq1511304979.jpg",
+        "ingredients": ["Deniz tarağı", "Dana pastırma", "Risotto pirinci", "Mantar", "Parmesan"],
+        "allergens": ["Deniz ürünü", "Süt"],
+        "selectionGroup": "main",
+        "selectionRequired": true
+      },
+      {
+        "id": "6",
+        "name": "Domates Soslu Penne",
+        "description": "Kızarmış patlıcan, kiraz domates ve zeytin",
+        "image": "https://www.themealdb.com/images/media/meals/yypwwq1511304979.jpg",
+        "ingredients": ["Penne makarna", "Patlıcan", "Kiraz domates", "Zeytin", "Parmesan"],
+        "allergens": ["Gluten", "Süt"],
+        "selectionGroup": "main",
+        "selectionRequired": true
+      }
+    ],
+    "desserts": [
+      {
+        "id": "7",
+        "name": "Geleneksel Türk Tatlıları",
+        "description": "Baklava ve künefe",
+        "image": "https://www.themealdb.com/images/media/meals/yypwwq1511304979.jpg",
+        "ingredients": ["Yufka", "Ceviz", "Kadayıf", "Peynir", "Şerbet"],
+        "allergens": ["Kuruyemiş", "Gluten", "Süt"],
+        "selectionGroup": "dessert",
+        "selectionRequired": true
+      },
+      {
+        "id": "8",
+        "name": "Browni Cheesecake",
+        "description": "Çikolatalı browni tabanında cheesecake",
+        "image": "https://i.nefisyemektarifleri.com/2014/03/brownie-cheesecake-fotografi-2.jpg",
+        "ingredients": ["Krema peyniri", "Çikolata", "Yumurta", "Un", "Şeker"],
+        "allergens": ["Süt", "Yumurta", "Gluten"],
+        "selectionGroup": "dessert",
+        "selectionRequired": true
+      },
+      {
+        "id": "9",
+        "name": "Vişneli Bademli Tart",
+        "description": "Vanilya sos ile",
+        "image": "https://www.themealdb.com/images/media/meals/yypwwq1511304979.jpg",
+        "ingredients": ["Vişne", "Badem", "Un", "Tereyağı", "Vanilya"],
+        "allergens": ["Kuruyemiş", "Gluten", "Süt"],
+        "tag": "sıcak",
+        "selectionGroup": "dessert",
+        "selectionRequired": true
+      }
+    ]
+  },
+  "metadata": {
+    "notice": "Yemeklerimiz İslami hassasiyetler gözetilerek hazırlanmaktadır.",
+    "isHalalCertified": true
+  }
+}
