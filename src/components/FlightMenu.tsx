@@ -77,7 +77,7 @@ function ItemDetails({ item }) {
         </div>
 
       </div>
-      <Chatbot />
+      <Chatbot menuItem={item.name} />
     </div>
   );
 }

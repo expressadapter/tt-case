@@ -1,16 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { ChatButton } from "./ChatButton";
-import { ChatDialog } from "./ChatDialog";
+import { ChatButton } from "@/components/chat/ChatButton";
+import { ChatDialog } from "@/components/chat/ChatDialog";
 
-export function Chatbot() {
+interface ChatBotProps {
+    menuItem: string | null;
+  }
+  
+export function Chatbot({ menuItem}: ChatBotProps ){
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
       <ChatButton isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
-      <ChatDialog isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <ChatDialog menuItem={menuItem} isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>
   );
 }

@@ -6,7 +6,7 @@ import { Bot, User } from "lucide-react";
 
 interface ChatMessageProps {
   content: string;
-  role: "assistant" | "user";
+  role: "assistant" | "user" | "system";
   isLoading?: boolean;
 }
 
