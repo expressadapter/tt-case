@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 const useSessionStorage = (key: string, initialValue = null) => {
   const [value, setValue] = useState(() => {
     if (typeof window === 'undefined') return initialValue;
-    
+
     try {
       const item = sessionStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
@@ -13,7 +13,7 @@ const useSessionStorage = (key: string, initialValue = null) => {
     }
   });
 
-  const setStorageValue = (newValue:any) => {
+  const setStorageValue = (newValue: any) => {
     try {
       setValue(newValue);
       if (typeof window !== 'undefined') {

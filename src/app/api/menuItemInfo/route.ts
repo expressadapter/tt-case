@@ -239,10 +239,10 @@ export async function GET(req: Request) {
       category: 'NOT FOUND',
       description: 'NOT FOUND',
       image: '/api/placeholder/300/200',
-      ingredients: ['NOT FOUND',],
-      allergens: ['NOT FOUND',],
-      chefs_description:'NOT FOUND',
-      dietaryInfo: ['NOT FOUND',],
+      ingredients: ['NOT FOUND'],
+      allergens: ['NOT FOUND'],
+      chefs_description: 'NOT FOUND',
+      dietaryInfo: ['NOT FOUND'],
     });
   }
 

@@ -15,7 +15,6 @@ import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import useSessionStorage from '@/hooks/useSessionStorage';
 
-
 function ItemDetails({ item }) {
   return (
     <div>
@@ -132,17 +131,17 @@ function MenuSection({ item }) {
           {item.alternativeGroups.map((group, groupIndex) => (
             <div className="mb-2">
               <div>
-                {group.alternationType &&
-                    <p className="mt-2 text-center text-lg font-medium">{group.alternationType}</p>
-                }
-                {group.items.map((item, itemIndex) => (                 
+                {group.alternationType && (
+                  <p className="mt-2 text-center text-lg font-medium">{group.alternationType}</p>
+                )}
+                {group.items.map((item, itemIndex) => (
                   <div key={uniqueId} className={itemIndex > 0 ? 'mt-2' : ''}>
                     {renderItem(item)}
                   </div>
                 ))}
               </div>
-            
-              {groupIndex === item.alternativeGroups.length-1 && (
+
+              {groupIndex === item.alternativeGroups.length - 1 && (
                 <div className="mt-4 flex justify-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -174,11 +173,11 @@ export default function InflightMenu() {
   const router = useTransitionRouter();
   const t = useTranslations();
   const searchParams = useSearchParams();
-  const data = searchParams.get("data");
+  const data = searchParams.get('data');
   const [menuData, setMenuData] = useSessionStorage('menuData');
 
   useEffect(() => {
-    setIsMounted(true); 
+    setIsMounted(true);
   }, []);
 
   if (!isMounted) return null;

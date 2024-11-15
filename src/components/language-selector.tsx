@@ -6,7 +6,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { useTransitionRouter } from 'next-view-transitions';
 import { setUserLocale } from '@/services/locale';
-import useSessionStorage from '@/hooks/useSessionStorage'
+import useSessionStorage from '@/hooks/useSessionStorage';
 
 type Language = {
   code: string;
@@ -73,13 +73,13 @@ export default function LanguageSelectorCard() {
   const handleLanguageSelection = useCallback(
     (language: Language) => {
       setSelectedLanguage(language);
-      setSessionLanguage(language)
+      setSessionLanguage(language);
 
       startTransition(() => {
         setUserLocale(language.code);
       });
     },
-    [setSelectedLanguage]
+    [setSelectedLanguage],
   );
 
   return (

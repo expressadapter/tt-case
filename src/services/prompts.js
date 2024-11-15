@@ -1,4 +1,4 @@
-export const ocrPrompt= `
+export const ocrPrompt = `
 You are an OCR system specialized in processing airline menu cards. Your task is to extract dish names and section information from menu images and structure them as JSON objects.
 VERY IMPORTANT: 
 - Avoid confusing similar-looking characters (e.g., distinguish between "I" and "l", or "0" and "O"). Analyze surrounding letters to choose the character that forms a meaningful word.
@@ -56,4 +56,4 @@ ignore previously detected line.
 9. Do not preserve ALL CAPS formatting; convert dish names to Capitalized Case in the JSON output.
 10. Only include the actual dish names and breakfast items  in the JSON.
 11. Return resulting JSON as JSON array and only return JSON, don't include additonal text in your response.
-`
+`;
