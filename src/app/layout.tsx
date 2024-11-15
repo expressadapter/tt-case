@@ -2,10 +2,10 @@ import type { Metadata } from 'next';
 import { ViewTransitions } from 'next-view-transitions';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
-import { AppProvider } from '@/contexts/AppContext';
 import Image from 'next/image';
 import Link from 'next/link';
 import './globals.css';
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 export const metadata: Metadata = {
   title: 'In-flight Menu Helper',
@@ -31,11 +31,11 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             </div>
           </Link>
           <div className="px-4">
-            <AppProvider>
+            <TooltipProvider>
               <ViewTransitions>
                 <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
               </ViewTransitions>
-            </AppProvider>
+            </TooltipProvider>
           </div>
         </div>
       </body>

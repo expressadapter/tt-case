@@ -14,6 +14,9 @@ import { useTransitionRouter } from 'next-view-transitions';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import useSessionStorage from '@/hooks/useSessionStorage';
+import { Chatbot } from './chat/Chatbot';
+import { v4 as uuidv4 } from "uuid";
+
 
 function ItemDetails({ item }) {
   return (
@@ -38,13 +41,12 @@ function ItemDetails({ item }) {
             {item.chefs_description}
           </p>
         )}
-
         <div className="mb-2">
-          <h4 className="font-medium">Dietary Information</h4>
+          <h4 className="font-medium">Ingredients</h4>
           <div className="flex flex-wrap gap-2">
-            {item.dietaryInfo.map((info, index) => (
-              <Badge key={index} variant="secondary">
-                {info}
+            {item.ingredients.map((ingredient, index) => (
+              <Badge key={index} variant="primary">
+                {ingredient}
               </Badge>
             ))}
           </div>
@@ -64,12 +66,18 @@ function ItemDetails({ item }) {
         )}
 
         <div className="mb-2">
-          <h4 className="font-medium">Ingredients</h4>
-          <p className="text-sm leading-relaxed">{item.ingredients.join(', ')}</p>
+          <h4 className="font-medium">Dietary Information</h4>
+          <div className="flex flex-wrap gap-2">
+            {item.dietaryInfo.map((info, index) => (
+              <Badge key={index} variant="secondary">
+                {info}
+              </Badge>
+            ))}
+          </div>
         </div>
 
-        <div className="text-sm font-medium">Calories: {item.calories}</div>
       </div>
+      <Chatbot />
     </div>
   );
 }
@@ -175,9 +183,14 @@ export default function InflightMenu() {
   const searchParams = useSearchParams();
   const data = searchParams.get('data');
   const [menuData, setMenuData] = useSessionStorage('menuData');
+  const [userId, setUserId] = useSessionStorage('userId');
 
   useEffect(() => {
     setIsMounted(true);
+
+    if(!userId){
+      setUserId(uuidv4())
+    }
   }, []);
 
   if (!isMounted) return null;
@@ -227,6 +240,7 @@ export default function InflightMenu() {
           </Button>
         </div>
       </div>
+      <Chatbot />
     </div>
   );
 }
