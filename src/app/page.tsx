@@ -85,14 +85,14 @@ export default function LanguageSelectorCard() {
 
   return (
     <div>
-      <div className="relative mb-4 mt-4 h-14 overflow-hidden sm:h-16">
+      <div className="relative mb-2 mt-2 h-14 overflow-hidden">
         {languages.map((lang, index) => (
           <div
             key={lang.code}
-            className={`absolute w-full text-center text-3xl font-bold transition-all duration-500 ${
+            className={`absolute w-full text-center text-3xl font-bold leading-snug transition-all duration-500 ${
               (selectedLanguage ? lang.code === selectedLanguage.code : index === currentIndex)
                 ? 'top-0 opacity-100'
-                : 'top-16 opacity-0 sm:top-20'
+                : 'top-16 opacity-0'
             }`}
           >
             {lang.enjoyMeal}
