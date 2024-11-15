@@ -1,18 +1,16 @@
 import type { Metadata } from 'next';
 import { ViewTransitions } from 'next-view-transitions';
 import { NextIntlClientProvider } from 'next-intl';
-import { getLocale, getMessages } from 'next-intl/server';
+import { getMessages } from 'next-intl/server';
 import Image from 'next/image';
 import Link from 'next/link';
 import './globals.css';
-import { TooltipProvider } from "@/components/ui/tooltip";
 
 export const metadata: Metadata = {
   title: 'In-flight Menu Helper',
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const locale = await getLocale();
   const messages = await getMessages();
 
   return (
@@ -24,18 +22,22 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             <div className="mt-6 flex flex-col items-center justify-between p-2">
               <div className="flex flex-col items-center">
                 <div className="flex items-center justify-center">
-                  <Image src="/images/thy-logo.png" alt="THY Logo" width={180} height={20} />
+                  <Image
+                    src="/images/thy-logo.png"
+                    alt="THY Logo"
+                    priority={true}
+                    width={180}
+                    height={20}
+                  />
                 </div>
                 <p className="text-md pt-1 font-semibold">In-flight Menu Helper</p>
               </div>
             </div>
           </Link>
           <div className="px-4">
-            <TooltipProvider>
-              <ViewTransitions>
-                <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
-              </ViewTransitions>
-            </TooltipProvider>
+            <ViewTransitions>
+              <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+            </ViewTransitions>
           </div>
         </div>
       </body>

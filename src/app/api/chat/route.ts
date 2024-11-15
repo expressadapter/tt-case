@@ -1,16 +1,12 @@
-import { NextResponse } from "next/server";
-import { generateChatResponse } from "@/services/chatBot";
-
+import { NextResponse } from 'next/server';
+import { generateChatResponse } from '@/services/chatBot';
 
 export async function POST(req: Request) {
   try {
     const { messages, userId } = await req.json();
-    console.error("Chat error:", userId);
+    console.error('Chat error:', userId);
     if (!messages || !Array.isArray(messages)) {
-      return NextResponse.json(
-        { error: "Invalid request format" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid request format' }, { status: 400 });
     }
 
     const { message, error } = await generateChatResponse(messages, userId);
@@ -21,10 +17,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ message });
   } catch (error) {
-    console.error("Chat API error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    console.error('Chat API error:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

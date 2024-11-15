@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { ChatButton } from "@/components/chat/ChatButton";
-import { ChatDialog } from "@/components/chat/ChatDialog";
+import { useState } from 'react';
+import { ChatButton } from '@/components/chat/ChatButton';
+import { ChatDialog } from '@/components/chat/ChatDialog';
 
 interface ChatBotProps {
-    menuItem: string | null;
-  }
-  
-export function Chatbot({ menuItem}: ChatBotProps ){
+  menuItem: string | null;
+}
+
+export function Chatbot({ menuItem }: ChatBotProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (

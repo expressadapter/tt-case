@@ -12,16 +12,12 @@ import {
 } from '@/components/ui/dialog';
 import { Camera, Upload, ArrowLeft, ArrowRight, X } from 'lucide-react';
 import { useTransitionRouter } from 'next-view-transitions';
-import { toBase64 } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
-import { readMenuData } from '@/services/ai';
-import { useSearchParams } from 'next/navigation';
-import useSessionStorage from '@/hooks/useSessionStorage';
+import { readMenuData } from '@/services/ocrProcess';
+import useSessionStorage from '@/hooks/use-session-storage';
 import preprocessImage from '@/services/imagePreprocess';
 import MenuInfoFiller from '@/services/menuInfoFiller';
 import { translateMenu } from '@/services/menuTranslation';
-
-type FileType = 'image/jpeg' | 'image/png';
 
 export default function MenuUpload() {
   const [file, setFile] = useState<File | null>(null);
@@ -31,12 +27,10 @@ export default function MenuUpload() {
   const webcamRef = useRef<Webcam>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useTransitionRouter();
-  const searchParams = useSearchParams();
-  const lang = searchParams.get('lang') || 'English';
   const t = useTranslations('MenuUpload');
 
-  const [selectedLanguage, setSelectedLanguage] = useSessionStorage('language');
-  const [menuData, setMenuData] = useSessionStorage('menuData');
+  const [selectedLanguage] = useSessionStorage('language');
+  const [, setMenuData] = useSessionStorage('menuData');
 
   const processFile = useCallback(async (file: File) => {
     try {
@@ -70,80 +64,17 @@ export default function MenuUpload() {
       if (!processedImage) throw new Error('Preprocess step failed');
 
       // Read menu data using the processed image
-      //const data = await readMenuData(processedImage, lang);
-      const data = [
-        {
-          id: 'dine_on_demand',
-          title: 'Dine On Demand',
-          items: [
-            {
-              alternativeGroups: [
-                { items: [{ name: 'Marinated Prawns And Grilled Vegetables' }] },
-                { alternationType: 'or', items: [{ name: 'Best Of Mezze' }] },
-                { alternationType: 'and/or', items: [{ name: 'Creamy Zucchini Soup' }] },
-              ],
-            },
-            {
-              alternativeGroups: [
-                { items: [{ name: 'Grilled Cod Fish' }] },
-                { alternationType: 'or', items: [{ name: 'Stir Fried Beef With Bbq' }] },
-                { alternationType: 'or', items: [{ name: 'Rigatoni With Parmesan Tomato Sauce' }] },
-              ],
-            },
-            {
-              alternativeGroups: [
-                { items: [{ name: 'Potpourri Of Traditional Turkish Desserts' }] },
-                { alternationType: 'or', items: [{ name: 'Chocolate Cake' }] },
-                { alternationType: 'or', items: [{ name: 'Apricot Caramel Cake' }] },
-                { alternationType: 'or', items: [{ name: 'Selection Of Cheese' }] },
-                { alternationType: 'or', items: [{ name: 'Fresh Fruit Salad' }] },
-              ],
-            },
-          ],
-        },
-        {
-          id: 'anytime',
-          title: 'Anytime',
-          items: [{ name: 'Roast Beef Sandwich' }, { name: 'Fruit Tartelette' }],
-        },
-        {
-          id: 'before_landing',
-          title: 'Before Landing',
-          items: [
-            { name: 'Freshly Squeezed Orange Juice' },
-            { name: 'Fresh Papaya Juice' },
-            { name: 'Mango & Banana Smoothie' },
-            { name: 'Fresh Fruit Salad' },
-            { name: 'Yoghurt' },
-            { name: 'Chicken Breast & Smoked Turkey' },
-            { name: 'Selection Of Cheese' },
-            { name: 'Honey, Butter' },
-            {
-              alternativeGroups: [
-                { items: [{ name: 'Mozzarella And Tomato Omelette' }] },
-                { alternationType: 'or', items: [{ name: 'Crepe With Vanilla Custard' }] },
-              ],
-            },
-            { name: 'Ovenfresh Bread Selection' },
-            { name: 'Croissant And Danish' },
-          ],
-        },
-      ];
-
+      const data = await readMenuData(processedImage);
       if (!data) throw new Error('Failed to read menu data');
 
       // Fill menu item info from using api
       let detailedMenuData = await MenuInfoFiller(data);
-
       //Make translation if needed
-      if(selectedLanguage.code !== 'en'){
-        detailedMenuData = await translateMenu(detailedMenuData,selectedLanguage.name)
+      if (selectedLanguage.code !== 'en') {
+        detailedMenuData = await translateMenu(detailedMenuData, selectedLanguage.name);
       }
 
-      console.log(detailedMenuData);
-
       setMenuData(detailedMenuData);
-
       router.push(`/menu`);
     } catch (error) {
       console.error('Error in handleContinue:', error);

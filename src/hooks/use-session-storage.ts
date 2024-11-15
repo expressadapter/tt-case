@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-const useSessionStorage = (key: string, initialValue = null) => {
+const useSessionStorageState = (key: string, initialValue: any = null) => {
   const [value, setValue] = useState(() => {
     if (typeof window === 'undefined') return initialValue;
 
     try {
-      const item = sessionStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
+      const storedValue = sessionStorage.getItem(key);
+      return storedValue ? JSON.parse(storedValue) : initialValue;
     } catch (error) {
       console.error('Error reading from sessionStorage:', error);
       return initialValue;
@@ -27,4 +27,4 @@ const useSessionStorage = (key: string, initialValue = null) => {
   return [value, setStorageValue];
 };
 
-export default useSessionStorage;
+export default useSessionStorageState;

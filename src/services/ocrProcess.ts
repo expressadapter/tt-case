@@ -2,21 +2,28 @@
 import { ChatOpenAI } from '@langchain/openai';
 import { StringOutputParser } from '@langchain/core/output_parsers';
 import { HumanMessage, SystemMessage } from '@langchain/core/messages';
+import ocrSystemPrompt from '@/prompts/ocr';
 
 const llm = new ChatOpenAI({
-  model: 'gpt-4o-mini',
+  model: 'gpt-4o',
   temperature: 0,
 });
 
 const parser = new StringOutputParser();
 
-export async function translateMenu(menuData: JSON, userLanguage: string) {
+export async function readMenuData(imageBase64: string) {
   const messages = [
-    new SystemMessage(
-      `Translate values of given JSON object to ${userLanguage}. While you are translating if you come across with value 'NOT FOUND' 
-      fill corresponding information according to your knowledge. Don't change 'image' key values. Return only new JSON`,
-    ),
-    new HumanMessage(`${JSON.stringify(menuData)}`),
+    new SystemMessage(ocrSystemPrompt),
+    new HumanMessage({
+      content: [
+        {
+          type: 'image_url',
+          image_url: {
+            url: imageBase64,
+          },
+        },
+      ],
+    }),
   ];
 
   const llmOutput = await llm.invoke(messages);

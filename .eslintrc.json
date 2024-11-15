@@ -4,5 +4,8 @@
     "next/typescript",
     "next/core-web-vitals",
     "plugin:prettier/recommended"
-  ]
+  ],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": ["off"]
+  }
 }
