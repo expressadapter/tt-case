@@ -19,6 +19,7 @@ import { useSearchParams } from 'next/navigation';
 import useSessionStorage from '@/hooks/useSessionStorage';
 import preprocessImage from '@/services/imagePreprocess';
 import MenuInfoFiller from '@/services/menuInfoFiller';
+import { translateMenu } from '@/services/menuTranslation';
 
 type FileType = 'image/jpeg' | 'image/png';
 
@@ -132,7 +133,12 @@ export default function MenuUpload() {
       if (!data) throw new Error('Failed to read menu data');
 
       // Fill menu item info from using api
-      const detailedMenuData = await MenuInfoFiller(data);
+      let detailedMenuData = await MenuInfoFiller(data);
+
+      //Make translation if needed
+      if(selectedLanguage.code !== 'en'){
+        detailedMenuData = await translateMenu(detailedMenuData,selectedLanguage.name)
+      }
 
       console.log(detailedMenuData);
 

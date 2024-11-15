@@ -35,7 +35,7 @@ function ItemDetails({ item }) {
 
         {item.description && (
           <p className="mb-4 mt-2 text-sm leading-relaxed text-muted-foreground">
-            {item.description}
+            {item.chefs_description}
           </p>
         )}
 
