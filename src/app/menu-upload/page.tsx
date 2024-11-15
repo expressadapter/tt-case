@@ -18,6 +18,7 @@ import { readMenuData } from '@/services/ai';
 import { useSearchParams } from 'next/navigation';
 import useSessionStorage from '@/hooks/useSessionStorage';
 import preprocessImage from '@/services/imagePreprocess';
+import MenuInfoFiller from '@/services/menuInfoFiller';
 
 type FileType = 'image/jpeg' | 'image/png';
 
@@ -69,9 +70,17 @@ export default function MenuUpload() {
       if (!processedImage) throw new Error('Preprocess step failed');
   
       // Read menu data using the processed image
-      const data = await readMenuData(processedImage, lang);
+      //const data = await readMenuData(processedImage, lang);
+      const data = [{"id":"dine_on_demand","title":"Dine On Demand","items":[{"alternativeGroups":[{"items":[{"name":"Marinated Prawns And Grilled Vegetables"}]},{"alternationType":"or","items":[{"name":"Best Of Mezze"}]},{"alternationType":"and/or","items":[{"name":"Creamy Zucchini Soup"}]}]},{"alternativeGroups":[{"items":[{"name":"Grilled Cod Fish"}]},{"alternationType":"or","items":[{"name":"Stir Fried Beef With Bbq"}]},{"alternationType":"or","items":[{"name":"Rigatoni With Parmesan Tomato Sauce"}]}]},{"alternativeGroups":[{"items":[{"name":"Potpourri Of Traditional Turkish Desserts"}]},{"alternationType":"or","items":[{"name":"Chocolate Cake"}]},{"alternationType":"or","items":[{"name":"Apricot Caramel Cake"}]},{"alternationType":"or","items":[{"name":"Selection Of Cheese"}]},{"alternationType":"or","items":[{"name":"Fresh Fruit Salad"}]}]}]},{"id":"anytime","title":"Anytime","items":[{"name":"Roast Beef Sandwich"},{"name":"Fruit Tartelette"}]},{"id":"before_landing","title":"Before Landing","items":[{"name":"Freshly Squeezed Orange Juice"},{"name":"Fresh Papaya Juice"},{"name":"Mango & Banana Smoothie"},{"name":"Fresh Fruit Salad"},{"name":"Yoghurt"},{"name":"Chicken Breast & Smoked Turkey"},{"name":"Selection Of Cheese"},{"name":"Honey, Butter"},{"alternativeGroups":[{"items":[{"name":"Mozzarella And Tomato Omelette"}]},{"alternationType":"or","items":[{"name":"Crepe With Vanilla Custard"}]}]},{"name":"Ovenfresh Bread Selection"},{"name":"Croissant And Danish"}]}]
+      
       if (!data) throw new Error('Failed to read menu data');
-      setMenuData(data);
+      
+      // Fill menu item info from using api
+      const detailedMenuData = await MenuInfoFiller(data)
+
+      console.log(detailedMenuData)
+
+      setMenuData(detailedMenuData);
   
       router.push(`/menu`);
     } catch (error) {

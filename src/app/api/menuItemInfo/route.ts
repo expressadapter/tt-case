@@ -2,9 +2,10 @@ import { NextResponse } from 'next/server';
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
-  const name = searchParams.get('name');
+  const name = decodeURIComponent(searchParams.get('name') || '');
+
   const menu = {
-    'Marinated Prawns and Grilled Vegetables': {
+    'Marinated Prawns And Grilled Vegetables': {
       category: 'Starters',
       description: 'Prawns marinated and grilled with a selection of fresh vegetables',
       image: '/api/placeholder/300/200',
@@ -234,7 +235,15 @@ export async function GET(req: Request) {
   const item = menu[name as keyof typeof menu];
 
   if (!item) {
-    return NextResponse.json({ error: 'Item not found' }, { status: 404 });
+    return NextResponse.json({
+      category: 'NOT FOUND',
+      description: 'NOT FOUND',
+      image: '/api/placeholder/300/200',
+      ingredients: ['NOT FOUND',],
+      allergens: ['NOT FOUND',],
+      chefs_description:'NOT FOUND',
+      dietaryInfo: ['NOT FOUND',],
+    });
   }
 
   return NextResponse.json(item);
