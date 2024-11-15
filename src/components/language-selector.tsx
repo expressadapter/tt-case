@@ -5,9 +5,8 @@ import { Check, ArrowRight } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { useTransitionRouter } from 'next-view-transitions';
-import { Locale } from '@/i18n/config';
-import { useAppContext } from '@/contexts/AppContext';
 import { setUserLocale } from '@/services/locale';
+import useSessionStorage from '@/hooks/useSessionStorage'
 
 type Language = {
   code: string;
@@ -53,33 +52,35 @@ const languages: Language[] = [
 ];
 
 export default function LanguageSelectorCard() {
-  const router = useTransitionRouter();
   const [isPending, startTransition] = useTransition();
-  const { state, dispatch } = useAppContext();
-
   const [currentIndex, setCurrentIndex] = useState(0);
-  const t = useTranslations();
-  const locale = useLocale();
   const [selectedLanguage, setSelectedLanguage] = useState(null);
+  const [sessionLanguage, setSessionLanguage] = useSessionStorage('language');
+
+  const t = useTranslations();
+  const router = useTransitionRouter();
 
   useEffect(() => {
-    let timer: NodeJS.Timeout | null = null;
     if (!selectedLanguage) {
-      timer = setInterval(() => {
+      const timer = setInterval(() => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % languages.length);
       }, 1250);
+
+      return () => clearInterval(timer); // Cleanup on unmount
     }
-    return () => {
-      if (timer) clearInterval(timer);
-    };
   }, [selectedLanguage]);
 
-  const handleLanguageSelection = useCallback((language: Language) => {
-    setSelectedLanguage(language);
-    startTransition(() => {
-      setUserLocale(language.code);
-    });
-  }, []);
+  const handleLanguageSelection = useCallback(
+    (language: Language) => {
+      setSelectedLanguage(language);
+      setSessionLanguage(language)
+
+      startTransition(() => {
+        setUserLocale(language.code);
+      });
+    },
+    [setSelectedLanguage]
+  );
 
   return (
     <div>
@@ -115,7 +116,7 @@ export default function LanguageSelectorCard() {
       </div>
       <div className="flex flex-col items-center">
         <Button
-          onClick={() => router.push('menu-upload')}
+          onClick={() => router.push(`menu-upload`)}
           disabled={!selectedLanguage}
           className="h-12 w-full transition-all duration-300 sm:w-auto"
         >

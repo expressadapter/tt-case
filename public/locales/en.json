@@ -2,5 +2,15 @@
   "Continue": "Continue",
   "Return": "Return",
   "Select File": "Select File",
-  "Capture Image": "Capture Image"
+  "Capture Image": "Capture Image",
+  "MenuUpload": {
+    "uploadTitle": "Upload Menu",
+    "selectFile": "Select File",
+    "captureImage": "Capture Image",
+    "capture": "Capture",
+    "discardImage": "Discard image",
+    "return": "Return",
+    "continue": "Continue",
+    "processing": "Processing..."
+  }
 }

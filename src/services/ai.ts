@@ -1,3 +1,4 @@
+'use server'
 import { ChatOpenAI } from '@langchain/openai';
 import { JsonOutputParser, StringOutputParser } from '@langchain/core/output_parsers';
 import { HumanMessage, SystemMessage, ToolMessage } from '@langchain/core/messages';
@@ -5,6 +6,7 @@ import { tool } from '@langchain/core/tools';
 import { z } from 'zod';
 import { useAppContext } from '@/contexts/AppContext';
 import { promises as fs } from 'fs';
+import {ocrPrompt} from './prompts'
 
 const llm = new ChatOpenAI({
   model: 'gpt-4o',
@@ -39,14 +41,11 @@ const searchMenuItemInfoTool = tool(
   },
 );
 
-const llmWithTools = llm.bindTools([searchMenuItemInfoTool]);
-
-export async function readMenuData() {
-
-    //const { state } = useAppContext();
-    console.log("buradaaaa")
-    let systemPrompt = await fs.readFile("src/services/ocr_prompt.md", 'utf-8');
-    let imageData = await fs.readFile("src/services/image.md", 'utf-8');
+/* const llmWithTools = llm.bindTools([searchMenuItemInfoTool]);
+ */
+export async function readMenuData(imageBase64: string, userLanguage: string) {
+    let systemPrompt =  await fs.readFile("src/services/ocr_prompt.md", 'utf-8');
+    let imageData = imageBase64
 
     let messages = [
       new SystemMessage(systemPrompt),
@@ -64,7 +63,7 @@ export async function readMenuData() {
       )
     ];
 
-    let llmOutput = await llmWithTools.invoke(messages);
+/*     let llmOutput = await llmWithTools.invoke(messages);
     messages.push(llmOutput);
 
     //console.log(messages)
@@ -82,12 +81,10 @@ export async function readMenuData() {
       });
       messages.push(newToolMessage);
     }
-
-    llmOutput = await llmWithTools.invoke(messages);
+ */
+    let llmOutput = await llm.invoke(messages);
     let parsedData = await parser.invoke(llmOutput);
-
-    console.log(parsedData)
     
+    console.log(parsedData)
     return JSON.parse(parsedData.slice(7, parsedData.length - 3));
-  
 }

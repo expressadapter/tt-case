@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback, useRef, useContext } from 'react';
+import React, { useState, useCallback, useRef} from 'react';
 import Webcam from 'react-webcam';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,29 +11,75 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Camera, Upload, ArrowLeft, ArrowRight, X } from 'lucide-react';
-import { Link, useTransitionRouter } from 'next-view-transitions';
+import { useTransitionRouter } from 'next-view-transitions';
 import { toBase64 } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
-import { useAppContext } from '@/contexts/AppContext';
+import { readMenuData } from '@/services/ai';
+import { useSearchParams } from 'next/navigation';
+import useSessionStorage from '@/hooks/useSessionStorage';
+import preprocessImage from '@/services/imagePreprocess';
 
-type FileType = 'image/jpeg' | 'image/png' | 'application/pdf';
+type FileType = 'image/jpeg' | 'image/png';
 
 export default function MenuUpload() {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [isWebcamOpen, setIsWebcamOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); 
   const webcamRef = useRef<Webcam>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const router = useTransitionRouter();
-  const t = useTranslations();
-  const { dispatch } = useAppContext();
+  const router = useTransitionRouter(); 
+  const searchParams = useSearchParams();
+  const lang = searchParams.get("lang") || 'English'; 
+  const t = useTranslations('MenuUpload');
+
+  const [selectedLanguage, setSelectedLanguage] = useSessionStorage('language');
+  const [menuData, setMenuData] = useSessionStorage('menuData');
+
 
   const processFile = useCallback(async (file: File) => {
-    setFile(file);
-    setPreview(URL.createObjectURL(file));
-    const base64String = await toBase64(file);
-    dispatch({ type: 'SET_UPLOADED_FILE', payload: base64String });
+    try {
+      if (!file.type.startsWith('image/')) {
+        console.error('Invalid file type');
+        return;
+      }
+      setFile(file);
+      const url = URL.createObjectURL(file);
+      setPreview(url);
+      
+      // Cleanup URL when component unmounts
+      return () => URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error processing file:', error);
+    }
   }, []);
+
+  const handleContinue = async () => {
+    if (!file) return;
+  
+    try {
+      setIsLoading(true);
+  
+      // Convert the file to a Base64 string
+      const arrayBuffer = await file.arrayBuffer();
+      const base64String = `data:${file.type};base64,${Buffer.from(arrayBuffer).toString('base64')}`;
+  
+      // Call the server function with the Base64 string
+      const processedImage = await preprocessImage(base64String);
+      if (!processedImage) throw new Error('Preprocess step failed');
+  
+      // Read menu data using the processed image
+      const data = await readMenuData(processedImage, lang);
+      if (!data) throw new Error('Failed to read menu data');
+      setMenuData(data);
+  
+      router.push(`/menu`);
+    } catch (error) {
+      console.error('Error in handleContinue:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -51,6 +97,9 @@ export default function MenuUpload() {
           const file = new File([blob], 'captured-image.jpg', { type: 'image/jpeg' });
           processFile(file);
           setIsWebcamOpen(false);
+        })
+        .catch((error) => {
+          console.error('Error capturing image:', error);
         });
     }
   }, [webcamRef, processFile]);
@@ -64,111 +113,109 @@ export default function MenuUpload() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-md space-y-4">
-      {!file && (
-        <div className="space-y-4">
-          <div className="flex flex-col gap-4">
-            <Button
-              variant="outline"
-              onClick={() => fileInputRef.current?.click()}
-              className="w-full"
-            >
-              <Upload className="mr-2 h-4 w-4" />
-              {t('Select File')}
-            </Button>
-            <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleFileChange}
-              accept="image/jpeg,image/png,application/pdf"
-              className="hidden"
-            />
+    <div className="min-h-screen p-4">
+      <div className="mx-auto w-full max-w-md space-y-4">
+        <h1 className="text-2xl font-bold text-center mb-6">{t('uploadTitle')}</h1>
+        
+        {!file && (
+          <div className="space-y-4">
+            <div className="flex flex-col gap-4">
+              <Button
+                variant="outline"
+                onClick={() => fileInputRef.current?.click()}
+                className="w-full"
+                disabled={isLoading}
+              >
+                <Upload className="mr-2 h-4 w-4" />
+                {t('selectFile')}
+              </Button>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                accept="image/jpeg,image/png"
+                className="hidden"
+              />
 
-            <Dialog open={isWebcamOpen} onOpenChange={setIsWebcamOpen}>
-              <DialogTrigger asChild>
-                <Button variant="outline" className="w-full">
-                  <Camera className="mr-2 h-4 w-4" />
-                  {t('Capture Image')}
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>{t('Capture Image')}</DialogTitle>
-                </DialogHeader>
-                <div className="mt-4">
-                  <Webcam
-                    audio={false}
-                    ref={webcamRef}
-                    screenshotFormat="image/jpeg"
-                    videoConstraints={{ facingMode: 'environment' }}
-                    className="w-full rounded-lg"
+              <Dialog open={isWebcamOpen} onOpenChange={setIsWebcamOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="outline" className="w-full" disabled={isLoading}>
+                    <Camera className="mr-2 h-4 w-4" />
+                    {t('captureImage')}
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>{t('captureImage')}</DialogTitle>
+                  </DialogHeader>
+                  <div className="mt-4">
+                    <Webcam
+                      audio={false}
+                      ref={webcamRef}
+                      screenshotFormat="image/jpeg"
+                      videoConstraints={{ facingMode: 'environment' }}
+                      className="w-full rounded-lg"
+                    />
+                    <Button 
+                      onClick={captureImage} 
+                      className="mt-4 w-full"
+                      disabled={isLoading}
+                    >
+                      {t('capture')}
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            </div>
+          </div>
+        )}
+
+        {file && (
+          <div className="space-y-4">
+            <div className="relative">
+              {preview && (
+                <div className="relative">
+                  <img
+                    src={preview}
+                    alt="Preview"
+                    className="max-h-[55vh] w-full rounded-lg object-contain"
                   />
-                  <Button onClick={captureImage} className="mt-4 w-full">
-                    {t('Capture Image')}
+                  <Button
+                    variant="destructive"
+                    size="icon"
+                    className="absolute right-2 top-2"
+                    onClick={handleDiscard}
+                    disabled={isLoading}
+                  >
+                    <X className="h-4 w-4" />
+                    <span className="sr-only">{t('discardImage')}</span>
                   </Button>
                 </div>
-              </DialogContent>
-            </Dialog>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {file && (
-        <div className="space-y-4">
-          <div className="relative">
-            {preview && (file.type as FileType).startsWith('image/') && (
-              <div className="relative">
-                <img
-                  src={preview}
-                  alt="Preview"
-                  className="max-h-[55vh] w-full rounded-lg object-contain"
-                />
-                <Button
-                  variant="destructive"
-                  size="icon"
-                  className="absolute right-2 top-2"
-                  onClick={handleDiscard}
-                >
-                  <X className="h-4 w-4" />
-                  <span className="sr-only">Discard image</span>
-                </Button>
-              </div>
-            )}
-            {(file.type as FileType) === 'application/pdf' && (
-              <div className="rounded-lg bg-muted p-4 text-muted-foreground">
-                PDF File: {file.name}
-                <Button
-                  variant="destructive"
-                  size="icon"
-                  className="absolute right-2 top-2"
-                  onClick={handleDiscard}
-                >
-                  <X className="h-4 w-4" />
-                  <span className="sr-only">Discard file</span>
-                </Button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      <div className={`flex flex-row gap-4 pt-4 ${file ? 'justify-between' : 'justify-center'}`}>
-        <Button
-          className="h-12 w-full transition-all duration-300 sm:w-auto"
-          onClick={() => router.push('/')}
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          {t('Return')}
-        </Button>
-        {file && (
+        <div className={`flex flex-row gap-4 pt-4 ${file ? 'justify-between' : 'justify-center'}`}>
           <Button
             className="h-12 w-full transition-all duration-300 sm:w-auto"
-            onClick={() => router.push('/menu')}
+            onClick={() => router.push('/')}
+            disabled={isLoading}
           >
-            {t('Continue')}
-            <ArrowRight className="ml-2 h-4 w-4" />
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            {t('return')}
           </Button>
-        )}
+          {file && (
+            <Button
+              className="h-12 w-full transition-all duration-300 sm:w-auto"
+              onClick={handleContinue}
+              disabled={isLoading}
+            >
+              {isLoading ? t('processing') : t('continue')}
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );

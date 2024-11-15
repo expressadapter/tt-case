@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useId, useState } from 'react';
+import React, { useEffect, useId, useState } from 'react';
 import { ArrowLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -12,6 +12,8 @@ import { useMediaQuery } from '@/hooks/use-media-query';
 import Image from 'next/image';
 import { useTransitionRouter } from 'next-view-transitions';
 import { useTranslations } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
+import useSessionStorage from '@/hooks/useSessionStorage';
 
 
 function ItemDetails({ item }) {
@@ -165,10 +167,21 @@ function MenuSection({ item }) {
   );
 }
 
-export default function InflightMenu({menuData}) {
+export default function InflightMenu() {
   const [selectedTiming, setSelectedTiming] = useState(null);
+  const [isMounted, setIsMounted] = useState(false);
+
   const router = useTransitionRouter();
   const t = useTranslations();
+  const searchParams = useSearchParams();
+  const data = searchParams.get("data");
+  const [menuData, setMenuData] = useSessionStorage('menuData');
+
+  useEffect(() => {
+    setIsMounted(true); 
+  }, []);
+
+  if (!isMounted) return null;
 
   return (
     <div className="flex w-full flex-wrap justify-center">

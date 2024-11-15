@@ -2,5 +2,15 @@
   "Continue": "Devam Et",
   "Return": "Geri Dön",
   "Select File": "Dosya Seç",
-  "Capture Image": "Görüntü Yakala"
+  "Capture Image": "Görüntü Yakala",
+  "MenuUpload": {
+    "uploadTitle": "Upload Menu",
+    "selectFile": "Select File",
+    "captureImage": "Capture Image",
+    "capture": "Capture",
+    "discardImage": "Discard image",
+    "return": "Return",
+    "continue": "Continue",
+    "processing": "Processing..."
+  }
 }
