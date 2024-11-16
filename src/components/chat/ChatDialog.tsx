@@ -117,14 +117,29 @@ export function ChatDialog({ menuItem, isOpen, onClose }: ChatDialogProps) {
         isValidMessage(msg.content),
       );
 
-      const data = await generateChatResponse(validatedMessages, userId);
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        try {
+          const data = await generateChatResponse(validatedMessages, userId);
 
-      // Validate response message
-      if (!isValidMessage(data.message)) {
-        throw new Error('Invalid response from server');
+          // Validate response message
+          if (!isValidMessage(data.message)) {
+            throw new Error('Invalid response from server');
+          } else {
+            setMessages((prev) => [...prev, { role: 'assistant', content: data.message }]);
+          }
+
+          // If everything is valid, exit the loop and proceed
+          break;
+        } catch (error) {
+          console.error(`Attempt ${attempt} failed:`, error);
+
+          if (attempt === 3) {
+            // Log final failure after all retries
+            console.error('All retry attempts failed.');
+            throw new Error('Failed to generate a valid response after multiple attempts.');
+          }
+        }
       }
-
-      setMessages((prev) => [...prev, { role: 'assistant', content: data.message }]);
     } catch (error) {
       console.error('Chat error:', error);
       setMessages((prev) => [
