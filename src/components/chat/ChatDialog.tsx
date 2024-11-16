@@ -119,10 +119,6 @@ export function ChatDialog({ menuItem, isOpen, onClose }: ChatDialogProps) {
 
       const data = await generateChatResponse(validatedMessages, userId);
 
-      if (data.error) {
-        throw new Error(data.error);
-      }
-
       // Validate response message
       if (!isValidMessage(data.message)) {
         throw new Error('Invalid response from server');
