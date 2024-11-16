@@ -30,7 +30,6 @@ export function ChatDialog({ menuItem, isOpen, onClose }: ChatDialogProps) {
   const isAtBottomRef = useRef(true);
   const [userId] = useSessionStorage('userId');
   const [menuData] = useSessionStorage('menuData');
-  const [selectedLanguage] = useSessionStorage('language');
   const t = useTranslations('Chat');
 
   const [messages, setMessages] = useState<Message[]>([
