@@ -8,6 +8,7 @@ import { useState, useRef, useEffect } from 'react';
 import { ChatMessage } from '@/components/chat/ChatMessage';
 import useSessionStorage from '@/hooks/use-session-storage';
 import chatBotSystemPrompt from '@/prompts/chatBot';
+import { generateChatResponse } from '@/services/chatBot';
 
 interface Message {
   role: 'assistant' | 'user' | 'system';
@@ -54,18 +55,10 @@ export function ChatDialog({ menuItem, isOpen, onClose }: ChatDialogProps) {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          messages: [...messages, { role: 'user', content: userMessage }],
-          userId,
-        }),
-      });
-
-      const data = await response.json();
+      const data = await generateChatResponse(
+        [...messages, { role: 'user', content: userMessage }],
+        userId,
+      );
 
       if (data.error) {
         throw new Error(data.error);

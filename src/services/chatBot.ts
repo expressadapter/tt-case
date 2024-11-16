@@ -1,3 +1,4 @@
+'use server';
 import { ChatOpenAI } from '@langchain/openai';
 import { START, END, MessagesAnnotation, StateGraph, MemorySaver } from '@langchain/langgraph';
 
@@ -24,7 +25,7 @@ const memory = new MemorySaver();
 const app = workflow.compile({ checkpointer: memory });
 
 export interface ChatMessage {
-  role: 'assistant' | 'user';
+  role: 'assistant' | 'user' | 'system';
   content: string;
 }
 
