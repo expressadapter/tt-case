@@ -30,35 +30,43 @@ export interface ChatMessage {
 }
 
 export async function generateChatResponse(messages: ChatMessage[], userId: string) {
-  try {
-    let lastAIResponse = null;
+  let lastAIResponse = null;
+  let error = null;
 
-    const config = { configurable: { thread_id: userId } };
+  const config = { configurable: { thread_id: userId } };
+  const formattedMessages = messages.map((message) => ({
+    role: message.role,
+    content: message.content,
+  }));
 
-    const formattedMessages = messages.map((message) => ({
-      role: message.role,
-      content: message.content,
-    }));
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const response = await app.invoke({ messages: formattedMessages }, config);
 
-    const response = await app.invoke({ messages: formattedMessages }, config);
+      // Extract last AI message content
+      if (response.messages) {
+        const lastAIMessage = response.messages
+          .reverse()
+          .find((msg: any) => msg.constructor.name === 'AIMessage');
 
-    // Extract last AI message content
-    if (response.messages) {
-      const lastAIMessage = response.messages
-        .reverse()
-        .find((msg: any) => msg.constructor.name === 'AIMessage');
+        if (lastAIMessage) {
+          lastAIResponse = lastAIMessage.content;
+        }
+      }
 
-      if (lastAIMessage) {
-        lastAIResponse = lastAIMessage.content;
+      return { message: lastAIResponse, error: null }; // Successful attempt
+    } catch (err) {
+      console.error(`Attempt ${attempt} failed:`, err);
+      error = err;
+      if (attempt === 3) {
+        // Log final failure
+        console.error('All retry attempts failed.');
       }
     }
-
-    return { message: lastAIResponse, error: null };
-  } catch (error) {
-    console.error('Error generating chat response:', error);
-    return {
-      message: null,
-      error: 'Failed to generate response. Please try again.',
-    };
   }
+
+  return {
+    message: null,
+    error: error || 'Failed to generate response. Please try again.',
+  };
 }
