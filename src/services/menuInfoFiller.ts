@@ -18,7 +18,7 @@ export default async function MenuInfoFiller(menuData: any) {
       try {
         // We are simulating an external API call
         const response = await fetch(
-          `${process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : process.env.NEXT_PUBLIC_API_URL}/api/external/menuItemInfo?name=${encodeURIComponent(name)}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/external/menuItemInfo?name=${encodeURIComponent(name)}`,
         );
         if (!response.ok) throw new Error(`Failed to fetch for name: ${name}`);
         return await response.json();

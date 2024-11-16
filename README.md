@@ -19,7 +19,7 @@ pnpm dev
 ```
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Example menu image: https://tt-case.vercel.app/images/example_menu.png
+Example menu image: https://main.dtmzpk3uz7miu.amplifyapp.com/images/example_menu.png
 
 4. To run linter and prettier
 ```bash
