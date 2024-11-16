@@ -38,8 +38,7 @@ export function ChatDialog({ menuItem, isOpen, onClose }: ChatDialogProps) {
       role: 'system',
       content:
         chatBotSystemPrompt +
-        `\n ${JSON.stringify(menuData)}
-      \n Your responses must be in ${selectedLanguage?.name} language` +
+        `\n ${JSON.stringify(menuData)}` +
         (menuItem ? `\n Note: Now user asking question about ${menuItem}` : ``),
     },
   ]);
