@@ -25,6 +25,7 @@ export function ChatDialog({ menuItem, isOpen, onClose }: ChatDialogProps) {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const isAtBottomRef = useRef(true);
   const [userId] = useSessionStorage('userId');
   const [menuData] = useSessionStorage('menuData');
   const [selectedLanguage] = useSessionStorage('language');
@@ -40,11 +41,35 @@ export function ChatDialog({ menuItem, isOpen, onClose }: ChatDialogProps) {
     },
   ]);
 
-  useEffect(() => {
+  const scrollToBottom = () => {
     if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+      const viewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+      if (viewport && isAtBottomRef.current) {
+        viewport.scrollTop = viewport.scrollHeight;
+      }
     }
-  }, [messages]);
+  };
+
+  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    const viewport = event.currentTarget;
+    const isAtBottom =
+      Math.abs(viewport.scrollHeight - viewport.scrollTop - viewport.clientHeight) < 10;
+    isAtBottomRef.current = isAtBottom;
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isLoading]);
+
+  // Reset scroll position when dialog opens
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        isAtBottomRef.current = true;
+        scrollToBottom();
+      }, 100);
+    }
+  }, [isOpen]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -85,11 +110,12 @@ export function ChatDialog({ menuItem, isOpen, onClose }: ChatDialogProps) {
         <div className="border-b p-4">
           <h2 className="text-lg font-semibold">In-flight Menu Helper</h2>
           <p className="text-sm text-muted-foreground">
-            {menuItem ? `How can I help you about ${menuItem}?` : `How can I help you today?`}
+            {menuItem ? `How can I help you about ${menuItem}?` : 'How can I help you today?'}
           </p>
         </div>
+
         <ScrollArea ref={scrollAreaRef} className="flex-1 px-2">
-          <div className="flex flex-col py-4">
+          <div className="flex flex-col py-4" onScroll={handleScroll}>
             {messages.slice(1).map((message, index) => (
               <ChatMessage key={index} {...message} />
             ))}

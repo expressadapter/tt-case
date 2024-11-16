@@ -1,8 +1,10 @@
 'use client';
 
+import React from 'react';
+import ReactMarkdown from 'react-markdown';
 import { cn } from '@/lib/utils';
-import { Avatar } from '@/components/ui/avatar';
-import { Bot, User } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { User } from 'lucide-react';
 
 interface ChatMessageProps {
   content: string;
@@ -15,11 +17,18 @@ export function ChatMessage({ content, role, isLoading }: ChatMessageProps) {
     <div className={cn('flex w-full gap-3 p-4', role === 'user' ? 'flex-row-reverse' : 'flex-row')}>
       <Avatar
         className={cn(
-          'h-8 w-8 rounded-full border',
-          role === 'assistant' ? 'bg-primary text-primary-foreground' : 'bg-muted',
+          'flex h-8 w-8 items-center justify-center rounded-full border',
+          role === 'assistant' ? 'bg- text-primary-foreground' : 'bg-muted',
         )}
       >
-        {role === 'assistant' ? <Bot className="h-4 w-4" /> : <User className="h-4 w-4" />}
+        {role === 'assistant' ? (
+          <>
+            <AvatarImage src="/favicon.ico" alt="Assistant" className="p-1" />
+            <AvatarFallback className="flex items-center justify-center">AI</AvatarFallback>
+          </>
+        ) : (
+          <User className="h-4 w-4" />
+        )}
       </Avatar>
       <div
         className={cn(
@@ -36,7 +45,13 @@ export function ChatMessage({ content, role, isLoading }: ChatMessageProps) {
             <span className="animate-bounce delay-200">·</span>
           </div>
         ) : (
-          <p className="text-sm">{content}</p>
+          <>
+            {role === 'assistant' ? (
+              <ReactMarkdown className="prose prose-sm max-w-none">{content}</ReactMarkdown>
+            ) : (
+              <p className="text-sm">{content}</p>
+            )}
+          </>
         )}
       </div>
     </div>
