@@ -14,6 +14,7 @@ import { useTranslations } from 'next-intl';
 import useSessionStorage from '@/hooks/use-session-storage';
 import { Chatbot } from '@/components/chat/Chatbot';
 import { v4 as uuidv4 } from 'uuid';
+import { useTransitionRouter } from 'next-view-transitions';
 
 interface Item {
   name: string;
@@ -198,6 +199,7 @@ export default function InflightMenu() {
   const [isMounted, setIsMounted] = useState(false);
 
   const t = useTranslations();
+  const router = useTransitionRouter();
   const [menuData] = useSessionStorage('menuData');
   const [userId, setUserId] = useSessionStorage('userId');
 
@@ -210,6 +212,14 @@ export default function InflightMenu() {
   }, [userId, setUserId]);
 
   if (!isMounted) return null;
+
+  const handleReturn = () => {
+    if(selectedTiming){
+      setSelectedTiming(null)
+    }else{
+      router.push('menu-upload')
+    }
+  }
 
   return (
     <div className="flex w-full flex-wrap justify-center">
@@ -249,7 +259,7 @@ export default function InflightMenu() {
         <div className={`flex flex-row justify-center gap-4 pt-4`}>
           <Button
             className="mb-4 h-12 w-full transition-all duration-300 sm:w-auto"
-            onClick={() => setSelectedTiming(null)}
+            onClick={handleReturn}
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             {t('Return')}
