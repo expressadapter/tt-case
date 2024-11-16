@@ -32,6 +32,11 @@ export function ChatDialog({ menuItem, isOpen, onClose }: ChatDialogProps) {
   const [menuData] = useSessionStorage('menuData');
   const t = useTranslations('Chat');
 
+  // Validate message content
+  const isValidMessage = (content: string): boolean => {
+    return typeof content === 'string' && content.trim().length > 0;
+  };
+
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'system',
@@ -87,21 +92,40 @@ export function ChatDialog({ menuItem, isOpen, onClose }: ChatDialogProps) {
   }, [isOpen]);
 
   const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
-
-    const userMessage = input.trim();
-    setInput('');
-    setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
-    setIsLoading(true);
-
     try {
-      const data = await generateChatResponse(
-        [...messages, { role: 'user', content: userMessage }],
-        userId,
+      const trimmedInput = input.trim();
+
+      // Enhanced validation
+      if (!isValidMessage(trimmedInput) || isLoading) {
+        console.warn('Invalid message or loading state:', { trimmedInput, isLoading });
+        return;
+      }
+
+      setInput('');
+
+      // Create new message object with validated content
+      const newUserMessage: Message = {
+        role: 'user',
+        content: trimmedInput,
+      };
+
+      setMessages((prev) => [...prev, newUserMessage]);
+      setIsLoading(true);
+
+      // Create validated messages array for API call
+      const validatedMessages = [...messages, newUserMessage].filter((msg) =>
+        isValidMessage(msg.content),
       );
+
+      const data = await generateChatResponse(validatedMessages, userId);
 
       if (data.error) {
         throw new Error(data.error);
+      }
+
+      // Validate response message
+      if (!isValidMessage(data.message)) {
+        throw new Error('Invalid response from server');
       }
 
       setMessages((prev) => [...prev, { role: 'assistant', content: data.message }]);
@@ -118,6 +142,8 @@ export function ChatDialog({ menuItem, isOpen, onClose }: ChatDialogProps) {
       setIsLoading(false);
     }
   };
+
+  const isSubmitDisabled = !input.trim() || isLoading || !isValidMessage(input);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -156,7 +182,7 @@ export function ChatDialog({ menuItem, isOpen, onClose }: ChatDialogProps) {
               inputMode={isInputReady ? 'text' : 'none'}
               tabIndex={isInputReady ? 0 : -1}
             />
-            <Button type="submit" size="icon" disabled={!input.trim() || isLoading}>
+            <Button type="submit" size="icon" disabled={isSubmitDisabled}>
               <SendHorizontal className="h-4 w-4" />
             </Button>
           </form>
