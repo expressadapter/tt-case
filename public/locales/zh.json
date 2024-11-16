@@ -1,3 +1,34 @@
 {
-  "Continue": "Continue"
+  "LanguageSelection": {
+    "continue": "继续"
+  },
+  "MenuUpload": {
+    "uploadTitle": "上传菜单图片",
+    "selectFile": "选择文件",
+    "captureImage": "拍摄照片",
+    "capture": "拍摄",
+    "discardImage": "丢弃图片",
+    "return": "返回",
+    "continue": "继续",
+    "processing": "处理中..."
+  },
+  "Menu": {
+    "return": "返回",
+    "viewDetails": "查看详情",
+    "chooseFromSelection": "请选择我们的菜单",
+    "or": "或",
+    "and": "和",
+    "or/and": "或/和",
+    "and/or": "和/或",
+    "ingredients": "成分",
+    "allergens": "过敏源",
+    "dietaryInfo": "饮食信息",
+    "footer": "我们的所有餐点均按照伊斯兰教原则准备。如果您的选择偶尔不可用，我们深感抱歉。在起飞和降落期间无法提供餐饮服务。感谢您的理解。"
+  },
+  "Chat": {
+    "assistantError": "抱歉，发生错误。请再试一次。",
+    "help": "我能帮您什么？",
+    "helpItem": "我如何帮助您处理 {menuItem}？",
+    "typeMessage": "输入您的消息..."
+  }
 }

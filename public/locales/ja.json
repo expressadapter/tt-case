@@ -1,3 +1,34 @@
 {
-  "Continue": "Continue"
+  "LanguageSelection": {
+    "continue": "続ける"
+  },
+  "MenuUpload": {
+    "uploadTitle": "メニュー画像をアップロード",
+    "selectFile": "ファイルを選択",
+    "captureImage": "写真を撮る",
+    "capture": "撮影",
+    "discardImage": "画像を破棄",
+    "return": "戻る",
+    "continue": "続ける",
+    "processing": "処理中..."
+  },
+  "Menu": {
+    "return": "戻る",
+    "viewDetails": "詳細を見る",
+    "chooseFromSelection": "メニューからお選びください",
+    "or": "または",
+    "and": "と",
+    "or/and": "または/と",
+    "and/or": "と/または",
+    "ingredients": "材料",
+    "allergens": "アレルゲン",
+    "dietaryInfo": "栄養情報",
+    "footer": "私たちのすべての食事はイスラムの原則に従って調理されています。時々、お選びいただいた料理が利用できないことがありますが、ご了承ください。離陸と着陸時には、ケータリングサービスは提供できません。ご理解いただきありがとうございます。"
+  },
+  "Chat": {
+    "assistantError": "申し訳ありませんが、エラーが発生しました。再度お試しください。",
+    "help": "今日はどのようにお手伝いできますか？",
+    "helpItem": "{menuItem}についてどうお手伝いできますか？",
+    "typeMessage": "メッセージを入力してください..."
+  }
 }

@@ -1,3 +1,34 @@
 {
-  "Continue": "Continue"
+  "LanguageSelection": {
+    "continue": "Continua"
+  },
+  "MenuUpload": {
+    "uploadTitle": "Carica immagine del menu",
+    "selectFile": "Seleziona file",
+    "captureImage": "Scatta una foto",
+    "capture": "Cattura",
+    "discardImage": "Scarta immagine",
+    "return": "Ritorno",
+    "continue": "Continua",
+    "processing": "Elaborazione..."
+  },
+  "Menu": {
+    "return": "Ritorno",
+    "viewDetails": "Visualizza dettagli",
+    "chooseFromSelection": "Si prega di scegliere dalla nostra selezione",
+    "or": "o",
+    "and": "e",
+    "or/and": "o/e",
+    "and/or": "e/o",
+    "ingredients": "Ingredienti",
+    "allergens": "Allergeni",
+    "dietaryInfo": "Informazioni dietetiche",
+    "footer": "Tutti i nostri pasti sono preparati secondo i principi islamici. Ci scusiamo se occasionalmente la vostra scelta non è disponibile. Il servizio di catering non è praticabile durante le fasi di decollo e atterraggio. Grazie per la vostra comprensione."
+  },
+  "Chat": {
+    "assistantError": "Mi scuso, ma ho riscontrato un errore. Per favore riprova.",
+    "help": "Come posso aiutarti oggi?",
+    "helpItem": "Come posso aiutarti con {menuItem}?",
+    "typeMessage": "Scrivi il tuo messaggio..."
+  }
 }

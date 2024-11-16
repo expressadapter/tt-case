@@ -9,6 +9,7 @@ import { ChatMessage } from '@/components/chat/ChatMessage';
 import useSessionStorage from '@/hooks/use-session-storage';
 import chatBotSystemPrompt from '@/prompts/chatBot';
 import { generateChatResponse } from '@/services/chatBot';
+import { useTranslations } from 'next-intl';
 
 interface Message {
   role: 'assistant' | 'user' | 'system';
@@ -29,6 +30,7 @@ export function ChatDialog({ menuItem, isOpen, onClose }: ChatDialogProps) {
   const [userId] = useSessionStorage('userId');
   const [menuData] = useSessionStorage('menuData');
   const [selectedLanguage] = useSessionStorage('language');
+  const t = useTranslations('Chat');
 
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -96,7 +98,7 @@ export function ChatDialog({ menuItem, isOpen, onClose }: ChatDialogProps) {
         ...prev,
         {
           role: 'assistant',
-          content: 'I apologize, but I encountered an error. Please try again.',
+          content: `${t('assistantError')}`,
         },
       ]);
     } finally {
@@ -110,7 +112,7 @@ export function ChatDialog({ menuItem, isOpen, onClose }: ChatDialogProps) {
         <div className="border-b p-4">
           <h2 className="text-lg font-semibold">In-flight Menu Helper</h2>
           <p className="text-sm text-muted-foreground">
-            {menuItem ? `How can I help you about ${menuItem}?` : 'How can I help you today?'}
+            {menuItem ? `${t('helpItem', { menuItem })}` : `${t('help')}`}
           </p>
         </div>
 
@@ -134,7 +136,7 @@ export function ChatDialog({ menuItem, isOpen, onClose }: ChatDialogProps) {
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Type your message..."
+              placeholder={`${t('typeMessage')}`}
               className="flex-1"
             />
             <Button type="submit" size="icon" disabled={!input.trim() || isLoading}>

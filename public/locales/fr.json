@@ -1,3 +1,34 @@
 {
-  "Continue": "Continue"
+  "LanguageSelection": {
+    "continue": "Continuer"
+  },
+  "MenuUpload": {
+    "uploadTitle": "Télécharger une image du menu",
+    "selectFile": "Sélectionner un fichier",
+    "captureImage": "Prendre une photo",
+    "capture": "Capturer",
+    "discardImage": "Annuler l'image",
+    "return": "Retour",
+    "continue": "Continuer",
+    "processing": "Traitement..."
+  },
+  "Menu": {
+    "return": "Retour",
+    "viewDetails": "Voir les détails",
+    "chooseFromSelection": "Veuillez choisir parmi notre sélection",
+    "or": "ou",
+    "and": "et",
+    "or/and": "ou/et",
+    "and/or": "et/ou",
+    "ingredients": "Ingrédients",
+    "allergens": "Allergènes",
+    "dietaryInfo": "Informations diététiques",
+    "footer": "Tous nos repas sont préparés conformément aux principes islamiques. Nous nous excusons si votre choix n'est pas disponible occasionnellement. Le service de restauration est impraticable pendant les périodes de décollage et d'atterrissage. Merci pour votre compréhension."
+  },
+  "Chat": {
+    "assistantError": "Je suis désolé, mais j'ai rencontré une erreur. Veuillez réessayer.",
+    "help": "Comment puis-je vous aider aujourd'hui ?",
+    "helpItem": "Comment puis-je vous aider pour {menuItem} ?",
+    "typeMessage": "Tapez votre message..."
+  }
 }

@@ -1,3 +1,34 @@
 {
-  "Continue": "Continue"
+  "LanguageSelection": {
+    "continue": "계속"
+  },
+  "MenuUpload": {
+    "uploadTitle": "메뉴 이미지 업로드",
+    "selectFile": "파일 선택",
+    "captureImage": "사진 찍기",
+    "capture": "찍기",
+    "discardImage": "이미지 버리기",
+    "return": "돌아가기",
+    "continue": "계속",
+    "processing": "처리 중..."
+  },
+  "Menu": {
+    "return": "돌아가기",
+    "viewDetails": "상세보기",
+    "chooseFromSelection": "우리의 선택에서 고르세요",
+    "or": "또는",
+    "and": "그리고",
+    "or/and": "또는/그리고",
+    "and/or": "그리고/또는",
+    "ingredients": "재료",
+    "allergens": "알레르기 유발 물질",
+    "dietaryInfo": "식이 정보",
+    "footer": "우리의 모든 식사는 이슬람 원칙에 따라 준비됩니다. 가끔 선택한 메뉴가 제공되지 않을 수 있습니다. 이륙과 착륙 시에는 음식 서비스가 제공되지 않습니다. 양해해 주셔서 감사합니다."
+  },
+  "Chat": {
+    "assistantError": "죄송합니다, 오류가 발생했습니다. 다시 시도해 주세요.",
+    "help": "오늘 무엇을 도와드릴까요?",
+    "helpItem": "{menuItem}에 대해 어떻게 도와드릴까요?",
+    "typeMessage": "메시지를 입력하세요..."
+  }
 }

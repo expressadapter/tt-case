@@ -40,6 +40,8 @@ interface Timing {
 }
 
 function ItemDetails({ item }: { item: Item }) {
+  const t = useTranslations('Menu');
+
   return (
     <div>
       <div className="relative mb-4 h-72 w-full">
@@ -63,7 +65,7 @@ function ItemDetails({ item }: { item: Item }) {
           </p>
         )}
         <div className="mb-2">
-          <h4 className="font-medium">Ingredients</h4>
+          <h4 className="font-medium">{t('ingredients')}</h4>
           <div className="flex flex-wrap gap-2">
             {item.ingredients.map((ingredient, index) => (
               <Badge key={index} variant="default">
@@ -75,7 +77,7 @@ function ItemDetails({ item }: { item: Item }) {
 
         {item.allergens.length > 0 && (
           <div className="mb-2">
-            <h4 className="font-medium">Allergens</h4>
+            <h4 className="font-medium">{t('allergens')}</h4>
             <div className="flex flex-wrap gap-2">
               {item.allergens.map((allergen, index) => (
                 <Badge key={index} variant="destructive">
@@ -87,7 +89,7 @@ function ItemDetails({ item }: { item: Item }) {
         )}
 
         <div className="mb-2">
-          <h4 className="font-medium">Dietary Information</h4>
+          <h4 className="font-medium">{t('dietaryInfo')}</h4>
           <div className="flex flex-wrap gap-2">
             {item.dietaryInfo.map((info, index) => (
               <Badge key={index} variant="secondary">
@@ -104,6 +106,7 @@ function ItemDetails({ item }: { item: Item }) {
 
 function MenuSection({ item }: { item: Item }) {
   const uniqueId = useId();
+  const t = useTranslations('Menu');
 
   const isMobile = useMediaQuery('(max-width: 640px)');
   const DetailsWrapper = isMobile ? Drawer : Dialog;
@@ -127,7 +130,7 @@ function MenuSection({ item }: { item: Item }) {
             <DetailsWrapper>
               <DetailsTrigger asChild>
                 <Button variant="link" className="h-auto p-0 text-sm">
-                  View Details
+                  {t('viewDetails')}
                 </Button>
               </DetailsTrigger>
               <DetailsContent className={isMobile ? 'h-[80vh]' : 'max-w-xl'}>
@@ -152,15 +155,13 @@ function MenuSection({ item }: { item: Item }) {
       {/* Alternative groups */}
       {item.alternativeGroups && (
         <div className="mb-4">
-          <p className="mb-1 mt-4 text-center text-lg font-medium">
-            Please choose from our selection
-          </p>
+          <p className="mb-1 mt-4 text-center text-lg font-medium">{t('chooseFromSelection')}</p>
 
           {item.alternativeGroups.map((group, groupIndex) => (
             <div key={groupIndex} className="mb-2">
               <div>
                 {group.alternationType && (
-                  <p className="mt-2 text-center text-lg font-medium">{group.alternationType}</p>
+                  <p className="mt-2 text-center text-lg font-medium">{t(group.alternationType)}</p>
                 )}
                 {group.items.map((item, itemIndex) => (
                   <div key={uniqueId} className={itemIndex > 0 ? 'mt-2' : ''}>
@@ -198,7 +199,7 @@ export default function InflightMenu() {
   const [selectedTiming, setSelectedTiming] = useState<Timing | null>(null);
   const [isMounted, setIsMounted] = useState(false);
 
-  const t = useTranslations();
+  const t = useTranslations('Menu');
   const router = useTransitionRouter();
   const [menuData] = useSessionStorage('menuData');
   const [userId, setUserId] = useSessionStorage('userId');
@@ -214,12 +215,12 @@ export default function InflightMenu() {
   if (!isMounted) return null;
 
   const handleReturn = () => {
-    if(selectedTiming){
-      setSelectedTiming(null)
-    }else{
-      router.push('menu-upload')
+    if (selectedTiming) {
+      setSelectedTiming(null);
+    } else {
+      router.push('menu-upload');
     }
-  }
+  };
 
   return (
     <div className="flex w-full flex-wrap justify-center">
@@ -250,11 +251,7 @@ export default function InflightMenu() {
       <div className="w-full md:w-2/3">
         <div className="text-center text-xs text-muted-foreground">
           <Separator className="my-4" />
-          <p>
-            All our meals are prepared in accordance with Islamic principles. We apologize if
-            occasionally your selection is not available. Catering service is impracticable during
-            take off and landing periods. Thank you for your understanding.
-          </p>
+          <p>{t('footer')}</p>
         </div>
         <div className={`flex flex-row justify-center gap-4 pt-4`}>
           <Button
@@ -262,7 +259,7 @@ export default function InflightMenu() {
             onClick={handleReturn}
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            {t('Return')}
+            {t('return')}
           </Button>
         </div>
       </div>

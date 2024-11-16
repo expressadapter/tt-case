@@ -1,3 +1,34 @@
 {
-  "Continue": "Continue"
+  "LanguageSelection": {
+    "continue": "Fortfahren"
+  },
+  "MenuUpload": {
+    "uploadTitle": "Menübild hochladen",
+    "selectFile": "Datei auswählen",
+    "captureImage": "Ein Foto machen",
+    "capture": "Aufnehmen",
+    "discardImage": "Bild verwerfen",
+    "return": "Zurück",
+    "continue": "Fortfahren",
+    "processing": "Verarbeitung..."
+  },
+  "Menu": {
+    "return": "Zurück",
+    "viewDetails": "Details anzeigen",
+    "chooseFromSelection": "Bitte wählen Sie aus unserer Auswahl",
+    "or": "oder",
+    "and": "und",
+    "or/and": "oder/und",
+    "and/or": "und/oder",
+    "ingredients": "Zutaten",
+    "allergens": "Allergene",
+    "dietaryInfo": "Ernährungsinformationen",
+    "footer": "Alle unsere Mahlzeiten werden nach islamischen Grundsätzen zubereitet. Wir entschuldigen uns, wenn Ihre Auswahl gelegentlich nicht verfügbar ist. Der Catering-Service ist während der Start- und Landezeiten nicht möglich. Vielen Dank für Ihr Verständnis."
+  },
+  "Chat": {
+    "assistantError": "Entschuldigung, ich habe einen Fehler festgestellt. Bitte versuchen Sie es erneut.",
+    "help": "Wie kann ich Ihnen heute helfen?",
+    "helpItem": "Wie kann ich Ihnen bei {menuItem} helfen?",
+    "typeMessage": "Geben Sie Ihre Nachricht ein..."
+  }
 }

@@ -58,7 +58,7 @@ export default function LanguageSelectorCard() {
   const [selectedLanguage, setSelectedLanguage] = useState<Language | null>(null);
   const [, setSessionLanguage] = useSessionStorage('language');
 
-  const t = useTranslations();
+  const t = useTranslations('LanguageSelection');
   const router = useTransitionRouter();
 
   useEffect(() => {
@@ -123,7 +123,7 @@ export default function LanguageSelectorCard() {
         >
           {selectedLanguage ? (
             <>
-              {t('Continue')}
+              {t('continue')}
               <ArrowRight className="ml-2 h-4 w-4" />
             </>
           ) : (

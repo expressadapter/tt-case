@@ -1,3 +1,34 @@
 {
-  "Continue": "Continue"
+  "LanguageSelection": {
+    "continue": "Doorgaan"
+  },
+  "MenuUpload": {
+    "uploadTitle": "Menu-afbeelding uploaden",
+    "selectFile": "Kies bestand",
+    "captureImage": "Maak een foto",
+    "capture": "Vastleggen",
+    "discardImage": "Afbeelding verwijderen",
+    "return": "Terug",
+    "continue": "Doorgaan",
+    "processing": "Verwerken..."
+  },
+  "Menu": {
+    "return": "Terug",
+    "viewDetails": "Bekijk details",
+    "chooseFromSelection": "Kies uit onze selectie",
+    "or": "of",
+    "and": "en",
+    "or/and": "of/en",
+    "and/or": "en/of",
+    "ingredients": "Ingrediënten",
+    "allergens": "Allergenen",
+    "dietaryInfo": "Dieet-informatie",
+    "footer": "Al onze maaltijden worden bereid volgens islamitische principes. Onze excuses als uw keuze soms niet beschikbaar is. Cateringservice is niet mogelijk tijdens het opstijgen en landen. Dank u voor uw begrip."
+  },
+  "Chat": {
+    "assistantError": "Mijn excuses, er is een fout opgetreden. Probeer het opnieuw.",
+    "help": "Hoe kan ik je helpen?",
+    "helpItem": "Hoe kan ik je helpen met {menuItem}?",
+    "typeMessage": "Typ je bericht..."
+  }
 }

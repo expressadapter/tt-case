@@ -1,16 +1,34 @@
 {
-  "Continue": "Continue",
-  "Return": "Return",
-  "Select File": "Select File",
-  "Capture Image": "Capture Image",
+  "LanguageSelection": {
+    "continue": "Continue"
+  },
   "MenuUpload": {
-    "uploadTitle": "Upload Menu",
+    "uploadTitle": "Upload Menu Image",
     "selectFile": "Select File",
-    "captureImage": "Capture Image",
+    "captureImage": "Take a photo",
     "capture": "Capture",
     "discardImage": "Discard image",
     "return": "Return",
     "continue": "Continue",
     "processing": "Processing..."
+  },
+  "Menu": {
+    "return": "Return",
+    "viewDetails": "View Details",
+    "chooseFromSelection": "Please choose from our selection",
+    "or": "or",
+    "and": "and",
+    "or/and": "or/and",
+    "and/or": "and/or",
+    "ingredients": "Ingredients",
+    "allergens": "Allergens",
+    "dietaryInfo": "Dietary Information",
+    "footer": "All our meals are prepared in accordance with Islamic principles. We apologize if occasionally your selection is not available. Catering service is impracticable during take off and landing periods. Thank you for your understanding."
+  },
+  "Chat": {
+    "assistantError": "I apologize, but I encountered an error. Please try again.",
+    "help": "How can I help you today?",
+    "helpItem": "How can I help you about {menuItem}?",
+    "typeMessage": "Type your message..."
   }
 }

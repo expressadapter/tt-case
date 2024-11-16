@@ -1,3 +1,34 @@
 {
-  "Continue": "Continue"
+  "LanguageSelection": {
+    "continue": "استمر"
+  },
+  "MenuUpload": {
+    "uploadTitle": "تحميل صورة القائمة",
+    "selectFile": "اختر ملف",
+    "captureImage": "التقط صورة",
+    "capture": "التقط",
+    "discardImage": "التخلص من الصورة",
+    "return": "العودة",
+    "continue": "استمر",
+    "processing": "جاري المعالجة..."
+  },
+  "Menu": {
+    "return": "العودة",
+    "viewDetails": "عرض التفاصيل",
+    "chooseFromSelection": "الرجاء اختيار من قائمتنا",
+    "or": "أو",
+    "and": "و",
+    "or/and": "أو/و",
+    "and/or": "و/أو",
+    "ingredients": "المكونات",
+    "allergens": "المواد المثيرة للحساسية",
+    "dietaryInfo": "معلومات غذائية",
+    "footer": "جميع وجباتنا معدة وفقاً للمبادئ الإسلامية. نعتذر إذا كانت بعض اختياراتك غير متوفرة. خدمة تقديم الطعام غير ممكنة خلال فترات الإقلاع والهبوط. شكراً لتفهمك."
+  },
+  "Chat": {
+    "assistantError": "عذراً، حدث خطأ. يرجى المحاولة مرة أخرى.",
+    "help": "كيف يمكنني مساعدتك اليوم؟",
+    "helpItem": "كيف يمكنني مساعدتك بشأن {menuItem}؟",
+    "typeMessage": "اكتب رسالتك..."
+  }
 }

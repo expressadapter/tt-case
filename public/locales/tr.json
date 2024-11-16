@@ -1,16 +1,34 @@
 {
-  "Continue": "Devam Et",
-  "Return": "Geri Dön",
-  "Select File": "Dosya Seç",
-  "Capture Image": "Görüntü Yakala",
+  "LanguageSelection": {
+    "continue": "Devam Et"
+  },
   "MenuUpload": {
-    "uploadTitle": "Upload Menu",
-    "selectFile": "Select File",
-    "captureImage": "Capture Image",
-    "capture": "Capture",
-    "discardImage": "Discard image",
-    "return": "Return",
-    "continue": "Continue",
-    "processing": "Processing..."
+    "uploadTitle": "Menü Görseli Yükle",
+    "selectFile": "Dosya Seç",
+    "captureImage": "Fotoğraf Çek",
+    "capture": "Çek",
+    "discardImage": "Görseli Sil",
+    "return": "Geri Dön",
+    "continue": "Devam Et",
+    "processing": "İşleniyor..."
+  },
+  "Menu": {
+    "return": "Geri Dön",
+    "viewDetails": "Detayları Gör",
+    "chooseFromSelection": "Lütfen seçiminizi yapınız",
+    "or": "veya",
+    "and": "ve",
+    "or/and": "veya/ve",
+    "and/or": "ve/veya",
+    "ingredients": "İçindekiler",
+    "allergens": "Alerjenler",
+    "dietaryInfo": "Beslenme Bilgisi",
+    "footer": "Tüm yemeklerimiz İslami ilkelere uygun olarak hazırlanmıştır. Seçiminiz zaman zaman mevcut olmayabilir, özür dileriz. Kalkış ve iniş sırasında yemek servisi mümkün değildir. Anlayışınız için teşekkür ederiz."
+  },
+  "Chat": {
+    "assistantError": "Üzgünüm, bir hata ile karşılaştım. Lütfen tekrar deneyin.",
+    "help": "Bugün size nasıl yardımcı olabilirim?",
+    "helpItem": "{menuItem} hakkında size nasıl yardımcı olabilirim?",
+    "typeMessage": "Mesajınızı yazın..."
   }
 }

@@ -16,7 +16,7 @@ Instructions:
    - **If there are multiple choices or options** (indicated by phrases like "please choose from our selection"):
      - Create an "alternativeGroups" array within the item.
      - Group consecutive items as options under separate "items" arrays within "alternativeGroups", using separators (e.g., "or", "and","and/or") as boundaries for new groups. You can use "alternationType" for items more than ones in "alternativeGroups".
-    - For some menus a dish or group of dishes (starter,main course,dessert etc.) could be alternative of local dish or group of local dishes (starter,main course,dessert etc) . Consider this structuring alternativeGroups.
+    - For some menus an item or group of items could be alternative of an item or group of items. Check this codition and consider while structuring alternativeGroups.
     -"items" array in  "alternativeGroups" array may contain many items.
    - **Ignore item descriptions or accompaniments**; include only the main dish names.
 5. Special Formatting Rules:
