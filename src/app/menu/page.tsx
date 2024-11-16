@@ -41,7 +41,7 @@ interface Timing {
 function ItemDetails({ item }: { item: Item }) {
   return (
     <div>
-      <div className="relative mb-4 h-60 w-full">
+      <div className="relative mb-4 h-72 w-full">
         <Image
           src={item.image}
           alt={item.name}
