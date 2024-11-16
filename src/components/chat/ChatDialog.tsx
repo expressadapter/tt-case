@@ -25,6 +25,7 @@ interface ChatDialogProps {
 export function ChatDialog({ menuItem, isOpen, onClose }: ChatDialogProps) {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isInputReady, setIsInputReady] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const isAtBottomRef = useRef(true);
   const [userId] = useSessionStorage('userId');
@@ -60,10 +61,24 @@ export function ChatDialog({ menuItem, isOpen, onClose }: ChatDialogProps) {
   };
 
   useEffect(() => {
+    if (isOpen) {
+      const timer = setTimeout(() => {
+        setIsInputReady(true);
+      }, 400);
+
+      return () => {
+        clearTimeout(timer);
+        setIsInputReady(false);
+      };
+    } else {
+      setIsInputReady(false);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
     scrollToBottom();
   }, [messages, isLoading]);
 
-  // Reset scroll position when dialog opens
   useEffect(() => {
     if (isOpen) {
       setTimeout(() => {
@@ -138,6 +153,10 @@ export function ChatDialog({ menuItem, isOpen, onClose }: ChatDialogProps) {
               onChange={(e) => setInput(e.target.value)}
               placeholder={`${t('typeMessage')}`}
               className="flex-1"
+              autoFocus={false}
+              autoComplete="off"
+              inputMode={isInputReady ? 'text' : 'none'}
+              tabIndex={isInputReady ? 0 : -1}
             />
             <Button type="submit" size="icon" disabled={!input.trim() || isLoading}>
               <SendHorizontal className="h-4 w-4" />
