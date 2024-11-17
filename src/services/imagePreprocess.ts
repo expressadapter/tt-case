@@ -17,6 +17,7 @@ export default async function preprocessImage(base64String: string): Promise<str
       .greyscale()
       .normalize()
       .sharpen()
+      .webp({lossless:true})
       .toFormat(format)
       .toBuffer();
 

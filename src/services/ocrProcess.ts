@@ -6,7 +6,7 @@ import ocrSystemPrompt from '@/prompts/ocr';
 
 const llm = new ChatOpenAI({
   model: 'gpt-4o',
-  temperature: 0,
+  temperature: 0.5,
 });
 
 const parser = new StringOutputParser();
