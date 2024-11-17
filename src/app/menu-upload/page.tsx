@@ -17,7 +17,7 @@ import { readMenuData } from '@/services/ocrProcess';
 import useSessionStorage from '@/hooks/use-session-storage';
 import preprocessImage from '@/services/imagePreprocess';
 import MenuInfoFiller from '@/services/menuInfoFiller';
-import { translateMenu } from '@/services/menuTranslation';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function MenuUpload() {
   const [file, setFile] = useState<File | null>(null);
@@ -31,6 +31,7 @@ export default function MenuUpload() {
 
   const [selectedLanguage] = useSessionStorage('language');
   const [, setMenuData] = useSessionStorage('menuData');
+  const [, setUserId] = useSessionStorage('userId');
 
   const processFile = useCallback(async (file: File) => {
     try {
@@ -55,6 +56,9 @@ export default function MenuUpload() {
     try {
       setIsLoading(true);
 
+      // We are setting new useer id for new chat history
+      setUserId(uuidv4());
+
       // Convert the file to a Base64 string
       const arrayBuffer = await file.arrayBuffer();
       const base64String = `data:${file.type};base64,${Buffer.from(arrayBuffer).toString('base64')}`;
@@ -68,11 +72,11 @@ export default function MenuUpload() {
       if (!data) throw new Error('Failed to read menu data');
 
       // Fill menu item info from using api
-      let detailedMenuData = await MenuInfoFiller(data);
+      const detailedMenuData = await MenuInfoFiller(data, selectedLanguage?.code);
       //Make translation if needed
-      if (selectedLanguage.code !== 'en') {
+      /* if (selectedLanguage.code !== 'en') {
         detailedMenuData = await translateMenu(detailedMenuData, selectedLanguage.name);
-      }
+      } */
 
       setMenuData(detailedMenuData);
       router.push(`/menu`);

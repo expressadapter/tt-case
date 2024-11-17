@@ -13,7 +13,6 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import useSessionStorage from '@/hooks/use-session-storage';
 import { Chatbot } from '@/components/chat/Chatbot';
-import { v4 as uuidv4 } from 'uuid';
 import { useTransitionRouter } from 'next-view-transitions';
 
 interface Item {
@@ -202,15 +201,10 @@ export default function InflightMenu() {
   const t = useTranslations('Menu');
   const router = useTransitionRouter();
   const [menuData] = useSessionStorage('menuData');
-  const [userId, setUserId] = useSessionStorage('userId');
 
   useEffect(() => {
     setIsMounted(true);
-
-    if (!userId) {
-      setUserId(uuidv4());
-    }
-  }, [userId, setUserId]);
+  }, []);
 
   if (!isMounted) return null;
 

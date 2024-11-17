@@ -1,6 +1,6 @@
 'use server';
 
-export default async function MenuInfoFiller(menuData: any) {
+export default async function MenuInfoFiller(menuData: any, lang: string) {
   try {
     // Helper function to recursively find objects with the "name" key
     const findNameObjects = (obj: any, result: any[] = []) => {
@@ -18,7 +18,7 @@ export default async function MenuInfoFiller(menuData: any) {
       try {
         // We are simulating an external API call
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/external/menuItemInfo?name=${encodeURIComponent(name)}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/external/menuItemInfo?name=${encodeURIComponent(name)}&lang=${encodeURIComponent(lang)}`,
         );
         if (!response.ok) throw new Error(`Failed to fetch for name: ${name}`);
         return await response.json();
